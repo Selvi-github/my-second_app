@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pickle
 import numpy as np
@@ -33,8 +32,11 @@ input_data = np.array([[gre, toefl, rating, sop, lor, cgpa, research_val]])
 
 # Predict
 if st.button("Predict Admission"):
-    prediction = model.predict(input_data)[0]
-    if prediction == 1:
+    prediction = model.predict_proba(input_data)[0][1]  # Get probability of class '1'
+    
+    st.markdown(f"🎯 **Chance of Admission:** `{prediction * 100:.2f}%`")
+
+    if prediction >= 0.5:
         st.success("✅ You are likely to be admitted!")
     else:
         st.error("❌ You may not be admitted. Consider improving your profile.")
